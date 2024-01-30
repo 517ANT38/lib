@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.function.Function;
 
+import lombok.ToString;
+@ToString
 public class MatArray implements Matrix<Double>, Serializable {
     
     private static final long serialVersionUID = 1L; 
@@ -172,6 +174,7 @@ public class MatArray implements Matrix<Double>, Serializable {
                 .sum();
         }
     }
+    
 
     
     
