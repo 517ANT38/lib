@@ -1,6 +1,7 @@
 package com.ml.util.linearAlgebra;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.function.Function;
 
 public class MatArray implements Matrix<Double>, Serializable {
@@ -128,6 +129,48 @@ public class MatArray implements Matrix<Double>, Serializable {
     @Override
     public int[] getDimensions() {
         return new int[]{matrix.length,matrix[0].length};
+    }
+    @Override
+    public Matrix<Double> getAxis(int index, int axis) {
+        if (axis >= 2) {
+            throw new IllegalArgumentException("Axis not found");
+        }
+        else if(axis == 0){
+            if (index > matrix.length) {
+                throw new IllegalArgumentException("Not found row");
+            }
+            return new MatArray(new double[][]{matrix[index]});
+        }
+        else {
+            if (index > matrix[0].length) {
+                throw new IllegalArgumentException("Not found column");
+            }
+            var res = new double[matrix.length][1];
+            for (int i = 0; i < matrix.length; i++) {
+                res[i][0] = matrix[i][0];
+            }
+            return new MatArray(res);
+        }
+    }
+    @Override
+    public Double sum(int index, int axis) {
+        if (axis >= 2) {
+            throw new IllegalArgumentException("Axis not found");
+        }
+        else if(axis == 0){
+            if (index > matrix.length) {
+                throw new IllegalArgumentException("Not found row");
+            }
+            return Arrays.stream(matrix[index]).sum();
+        }
+        else {
+            if (index > matrix[0].length) {
+                throw new IllegalArgumentException("Not found column");
+            }
+            return Arrays.stream(matrix)
+                .mapToDouble(x -> x[index])
+                .sum();
+        }
     }
 
     
