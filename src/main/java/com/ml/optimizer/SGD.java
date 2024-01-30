@@ -19,11 +19,11 @@ public class SGD implements Optimizer  {
 
 
     @Override
-    public void opt(Netable net, List<Matrix<Double>> xs, List<Matrix<Double>> ys) {
+    public void opt(Netable net, Matrix<Double> xs, Matrix<Double> ys) {
         var layers = net.getLayers();
         for (int i = 0; i < epoch; i++) {
-            int ep = RND.nextInt(0, xs.size() - 1);
-            var x = xs.get(ep); var y = ys.get(ep);
+            int ep = RND.nextInt(0, xs.getDimensions()[0] - 1);
+            var x = xs.getVector(ep, 0); var y = ys.getVector(ep, 0);
             var res = net.getResult(x);
             if(loss.apply(res, y) < eps)
                 break;
