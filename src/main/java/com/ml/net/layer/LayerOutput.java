@@ -35,9 +35,9 @@ public class LayerOutput implements Layerable, Serializable{
     @Override
     public Matrix<Double> back(Matrix<Double> m, double coff) {
         var d = this.y.sub(m).map(x -> func.difApply(x));
+        
         this.matrix = matrix.add(y
-            .transpose()
-            .dot(d)
+            .mult(d)
             .map(x -> x * coff));
         this.biases = biases.map(x -> x + d.sum(0, 0)*coff);// научиться находить сумму элементов строки (столбца)
         return d;
