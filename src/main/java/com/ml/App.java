@@ -19,5 +19,8 @@ public class App
         opt.opt(net, new MatArray(new double[][]{{0,1},{1,1},{0,0},{1,0}}),
             new MatArray(new double[][]{{1},{0},{0},{1}}));
         System.out.println(net.getResult(new MatArray(new double[][]{{1,1}})));
+        net.serialization("net");
+        var net1 = Net.readCreateNet("net");
+        System.out.println(net.getResult(new MatArray(new double[][]{{1,1}})));
     }
 }
