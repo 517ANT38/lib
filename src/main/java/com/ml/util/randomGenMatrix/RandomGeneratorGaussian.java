@@ -2,8 +2,8 @@ package com.ml.util.randomGenMatrix;
 
 import java.util.Random;
 
+import com.ml.util.linearAlgebra.MatArray;
 import com.ml.util.linearAlgebra.Matrix;
-import com.ml.util.linearAlgebra.NDArray;
 
 public class RandomGeneratorGaussian implements RandomGenerator<Double> {
 
@@ -21,7 +21,7 @@ public class RandomGeneratorGaussian implements RandomGenerator<Double> {
                 res[i][j] = Math.max(-1,Math.min(RND.nextGaussian(),1)); 
             }         
         }
-        return new NDArray(res);
+        return new MatArray(res);
     }
     
 }

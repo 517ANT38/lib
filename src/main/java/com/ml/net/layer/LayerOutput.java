@@ -1,8 +1,8 @@
 package com.ml.net.layer;
 
 import com.ml.util.activationFunction.ActivationFunction;
+import com.ml.util.linearAlgebra.MatArray;
 import com.ml.util.linearAlgebra.Matrix;
-import com.ml.util.linearAlgebra.NDArray;
 import com.ml.util.randomGenMatrix.RandomGenerator;
 import com.ml.util.randomGenMatrix.RandomGeneratorR;
 
@@ -15,7 +15,7 @@ public class LayerOutput implements Layerable{
 
     public LayerOutput(int input, int countNeuron, ActivationFunction func, RandomGenerator<Double> rg){
         this.matrix = rg.genRand(input, countNeuron);
-        this.biases = new NDArray(1, countNeuron);
+        this.biases = new MatArray(1, countNeuron);
     }
     public LayerOutput(int input, int countNeuron, ActivationFunction func){
         this(input, countNeuron, func, new RandomGeneratorR());
@@ -34,7 +34,7 @@ public class LayerOutput implements Layerable{
             .transpose()
             .dot(d)
             .map(x -> x * coff));
-        this.biases = biases.add()
+        this.biases = biases.add()// научиться находить сумму элементов строки (столбца)
         return d;
     }
 

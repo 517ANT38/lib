@@ -3,38 +3,19 @@ package com.ml.util.linearAlgebra;
 import java.io.Serializable;
 import java.util.function.Function;
 
-public class NDArray implements Matrix<Double>, Serializable {
+public class MatArray implements Matrix<Double>, Serializable {
     
     private static final long serialVersionUID = 1L; 
     private double[][] matrix;
 
-    public NDArray(double[][] matrix) {
+    public MatArray(double[][] matrix) {
         this.matrix = matrix;
     }
-    public NDArray(int n, int m){
+    public MatArray(int n, int m){
         this.matrix = new double[n][m];
     }
 
-    public static Matrix<Double> dot(Matrix<Double> a, Matrix<Double> b){
-        int rn1 = a.getDimensions()[0];
-        int rm1 = a.getDimensions()[1];
-        int rn2 = b.getDimensions()[0];
-        int rm2 = b.getDimensions()[1];
-        if (rm1 != rn2) 
-            throw new IllegalArgumentException("""
-                    Number of columns in  first matrix 
-                    is ​​not equal to  number of rows in second
-                """);
-        double[][] res = new double[rn1][rm2];
-        for (int i = 0; i < rn1; i++) {
-            for (int j = 0; j < rm2; j++) {
-                for (int k = 0; k < rm1; k++) {
-                    res[i][j] += a.get(i, k) * b.get(k, j);
-                }
-            }
-        }
-        return new NDArray(res);
-    }
+    
 
     @Override
     public Matrix<Double> transpose() {
@@ -46,7 +27,7 @@ public class NDArray implements Matrix<Double>, Serializable {
                 res[j][i] = matrix[i][j];
             }          
         }
-        return new NDArray(res);
+        return new MatArray(res);
     }
 
     @Override
@@ -86,7 +67,7 @@ public class NDArray implements Matrix<Double>, Serializable {
                 }
             }
         } 
-        return new NDArray(res);
+        return new MatArray(res);
     }
 
     @Override
@@ -108,7 +89,7 @@ public class NDArray implements Matrix<Double>, Serializable {
                 res[i][j] = matrix[i][j] + m.get(i, j);
             }
         }
-        return new NDArray(res);
+        return new MatArray(res);
     }
 
     @Override
@@ -130,7 +111,7 @@ public class NDArray implements Matrix<Double>, Serializable {
                 res[i][j] = matrix[i][j] - m.get(i, j);
             }
         }
-        return new NDArray(res);
+        return new MatArray(res);
     }
     @Override
     public Matrix<Double> map(Function<Double, Double> func) {
@@ -142,7 +123,7 @@ public class NDArray implements Matrix<Double>, Serializable {
                 res[i][j] = func.apply(matrix[i][j]);
             }
         }
-        return new NDArray(res);
+        return new MatArray(res);
     }
     @Override
     public int[] getDimensions() {
