@@ -1,12 +1,13 @@
 package com.ml.util.randomGenMatrix;
 
+import java.io.Serializable;
 import java.util.Random;
 
 import com.ml.util.linearAlgebra.MatArray;
 import com.ml.util.linearAlgebra.Matrix;
 
-public class RandomGeneratorR implements RandomGenerator<Double> {
-
+public class RandomGeneratorR implements RandomGenerator<Double>,Serializable {
+    private static final long serialVersionUID = 1L;
     private final  Random RND; 
 
     public RandomGeneratorR() {
