@@ -133,7 +133,7 @@ public class MatArray implements Matrix<Double>, Serializable {
         return new int[]{matrix.length,matrix[0].length};
     }
     @Override
-    public Matrix<Double> getAxis(int index, int axis) {
+    public Matrix<Double> getVector(int index, int axis) {
         if (axis >= 2) {
             throw new IllegalArgumentException("Axis not found");
         }

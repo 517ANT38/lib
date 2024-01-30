@@ -11,6 +11,6 @@ public interface Matrix<T extends Number> {
     Matrix<T> sub(Matrix<T> m);
     Matrix<T> map(Function<T,T> func);
     int[] getDimensions();
-    Matrix<T> getAxis(int index, int axis);
+    Matrix<T> getVector(int index, int axis);
     T sum(int index, int axis);
 }
