@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.ml.net.layer.LayerHidden;
+import com.ml.net.layer.LayerOutput;
 import com.ml.net.layer.Layerable;
 import com.ml.util.activationFunction.ActivationFunction;
 import com.ml.util.activationFunction.LogSigmoid;
@@ -34,7 +35,7 @@ public class Net implements Netable, Serializable {
         for (int i = 0; i < this.params[1] - 1; i++) {
             layers.add(new LayerHidden(this.params[2], this.params[2], f,r));
         }
-        layers.add(new LayerHidden(this.params[2], this.params[3], f,r));
+        layers.add(new LayerOutput(this.params[2], this.params[3], f,r));
     }
 
     public Net(int ... params){

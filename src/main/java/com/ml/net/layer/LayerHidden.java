@@ -15,10 +15,13 @@ public class LayerHidden implements Layerable, Serializable {
     private Matrix<Double> biases;
     private Matrix<Double> y;
     private ActivationFunction func;
+    private RandomGenerator<Double> rg;
 
     public LayerHidden(int input, int countNeuron, ActivationFunction func, RandomGenerator<Double> rg){
         this.matrix = rg.genRand(input, countNeuron);
         this.biases = new MatArray(1, countNeuron);
+        this.func = func;
+        this.rg = rg;
     }
     public LayerHidden(int input, int countNeuron, ActivationFunction func){
         this(input, countNeuron, func, new RandomGeneratorR());
