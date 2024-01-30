@@ -42,6 +42,10 @@ public class Net implements Netable, Serializable {
         this(new LogSigmoid(), new RandomGeneratorGaussian(), params);
     }
 
+    public Net(ActivationFunction f,int ... params){
+        this(f, new RandomGeneratorGaussian(), params);
+    }
+
     @Override
     public List<Layerable> getLayers() {
         return layers;
