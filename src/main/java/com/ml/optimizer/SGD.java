@@ -1,6 +1,5 @@
 package com.ml.optimizer;
 
-import java.util.List;
 import java.util.Random;
 
 import com.ml.net.Netable;

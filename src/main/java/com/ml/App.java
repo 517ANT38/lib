@@ -1,6 +1,6 @@
 package com.ml;
 
-import java.util.List;
+
 
 import com.ml.net.Net;
 import com.ml.optimizer.Optimizer;
@@ -8,10 +8,7 @@ import com.ml.optimizer.SGD;
 import com.ml.util.activationFunction.SingleLeap;
 import com.ml.util.linearAlgebra.MatArray;
 import com.ml.util.lossFunction.MeanSquarErr;
-/**
- * Hello world!
- *
- */
+
 public class App 
 {
     public static void main( String[] args )
