@@ -9,4 +9,5 @@ public interface Netable {
     List<Layerable> getLayers();
     void serialization(String pathFile);
     Matrix<Double> getResult(Matrix<Double> input);
+    int[] getParams();
 }

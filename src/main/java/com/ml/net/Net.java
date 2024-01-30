@@ -1,5 +1,10 @@
 package com.ml.net;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,6 +25,16 @@ public class Net implements Netable, Serializable {
     private List<Layerable> layers;
     private transient static final int[] DEFAULT_PARAMS = {3,1,3,1}; // countInput countHiddenLayer countHidNeuron countOutPut
     private int[] params;
+
+    public static Netable readCreateNet(String pathFile){
+        try (var iStream = new FileInputStream(pathFile)) {
+            try(var oStream = new ObjectInputStream(iStream)){
+                return (Net) oStream.readObject();
+            }
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public Net(List<Layerable> layers) {
         this.layers = layers;
@@ -53,8 +68,13 @@ public class Net implements Netable, Serializable {
 
     @Override
     public void serialization(String pathFile) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'serialization'");
+        try (var fileStream = new FileOutputStream(pathFile)) {
+            try (var oStream = new ObjectOutputStream(fileStream)) {
+              oStream.writeObject(this);  
+            } 
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -64,6 +84,11 @@ public class Net implements Netable, Serializable {
             tmp = l.ford(tmp);
         }
         return tmp;
+    }
+
+    @Override
+    public int[] getParams() {
+        return this.params;
     }
     
 }
