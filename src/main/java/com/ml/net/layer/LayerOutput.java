@@ -40,7 +40,13 @@ public class LayerOutput implements Layerable, Serializable{
             .mult(d)
             .map(x -> x * coff));
         this.biases = biases.map(x -> x + d.sum(0, 0)*coff);// научиться находить сумму элементов строки (столбца)
-        return d;
+        var e = d.get(0, 0);
+        var resMat = new MatArray(1, matrix.getDimensions()[0]);
+        for (int i = 0; i < matrix.getDimensions()[0]; i++) {
+            resMat.set(0, i, e);
+        }
+           
+        return resMat.transpose();
     }
 
     

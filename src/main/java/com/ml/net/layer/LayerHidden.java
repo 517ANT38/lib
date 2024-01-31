@@ -38,8 +38,8 @@ public class LayerHidden implements Layerable, Serializable {
 
     @Override
     public Matrix<Double> back(Matrix<Double> m, double coff) {
-        System.out.println(m);
         var d = matrix.transpose().dot(m).map(x -> func.difApply(x));
+
         
         this.matrix = matrix.add(y.transpose().dot(d).map(x -> x * coff).transpose());
         this.biases = biases.map(x -> x + d.sum(0, 0)*coff);
