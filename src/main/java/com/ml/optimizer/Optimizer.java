@@ -9,6 +9,6 @@ import com.ml.util.linearAlgebra.Matrix;
 
 public interface Optimizer {
 
-    void opt(Netable net, List<Matrix<Double>> xs,List<Matrix<Double>> ys);
+    void opt(Netable net, double[][] xs,double[][] ys);
     
 } 

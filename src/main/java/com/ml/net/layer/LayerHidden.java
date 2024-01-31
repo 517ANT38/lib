@@ -1,6 +1,7 @@
 package com.ml.net.layer;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 import com.ml.util.activationFunction.ActivationFunction;
 import com.ml.util.linearAlgebra.MatArray;
@@ -37,9 +38,10 @@ public class LayerHidden implements Layerable, Serializable {
 
     @Override
     public Matrix<Double> back(Matrix<Double> m, double coff) {
+        System.out.println(m);
+        var d = matrix.transpose().dot(m).map(x -> func.difApply(x));
         
-        var d = m.dot(matrix).map(x -> func.difApply(x));
-        this.matrix = matrix.add(y.mult(d).map(x -> x * coff));
+        this.matrix = matrix.add(y.transpose().dot(d).map(x -> x * coff).transpose());
         this.biases = biases.map(x -> x + d.sum(0, 0)*coff);
         return d;
     }
