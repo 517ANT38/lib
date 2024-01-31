@@ -1,8 +1,6 @@
 package com.ml.net.layer;
 
 import java.io.Serializable;
-import java.util.Arrays;
-
 import com.ml.util.activationFunction.ActivationFunction;
 import com.ml.util.linearAlgebra.MatArray;
 import com.ml.util.linearAlgebra.Matrix;
