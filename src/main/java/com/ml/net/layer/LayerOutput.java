@@ -2,6 +2,7 @@ package com.ml.net.layer;
 
 import java.io.Serializable;
 
+import com.ml.optimizer.util.Optimizer;
 import com.ml.util.activationFunction.ActivationFunction;
 import com.ml.util.linearAlgebra.MatArray;
 import com.ml.util.linearAlgebra.Matrix;
@@ -14,14 +15,16 @@ public class LayerOutput implements Layerable, Serializable{
     private Matrix<Double> biases;
     private Matrix<Double> x;
     private Matrix<Double> y;
+    private Optimizer optimizer;
     private ActivationFunction func;
     private RandomGenerator<Double> rg;
 
-    public LayerOutput(int input, int countNeuron, ActivationFunction func, RandomGenerator<Double> rg){
+    public LayerOutput(int input, int countNeuron, ActivationFunction func, Optimizer optimizer, RandomGenerator<Double> rg){
         this.matrix = rg.genRand(input, countNeuron);
         this.biases = new MatArray(1, countNeuron);
         this.func = func;
         this.rg = rg;
+        this.optimizer = optimizer;
     }
     public LayerOutput(int input, int countNeuron, ActivationFunction func){
         this(input, countNeuron, func, new RandomGeneratorR());
@@ -35,7 +38,7 @@ public class LayerOutput implements Layerable, Serializable{
         return this.y;
     }
     @Override
-    public Matrix<Double> back(Matrix<Double> m, double coff) {
+    public Matrix<Double> back(Matrix<Double> m) {
         var d = x.map(u -> func.difApply(u))            
             .mult(this.y.sub(m));
         
