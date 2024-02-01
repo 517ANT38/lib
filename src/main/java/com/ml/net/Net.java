@@ -13,6 +13,8 @@ import java.util.List;
 import com.ml.net.layer.LayerHidden;
 import com.ml.net.layer.LayerOutput;
 import com.ml.net.layer.Layerable;
+import com.ml.optimizer.util.Optimizer;
+import com.ml.optimizer.util.SGD;
 import com.ml.util.activationFunction.ActivationFunction;
 import com.ml.util.activationFunction.LogSigmoid;
 import com.ml.util.linearAlgebra.Matrix;
@@ -24,6 +26,7 @@ public class Net implements Netable, Serializable {
     private static final long serialVersionUID = 1L;
     private List<Layerable> layers;
     private transient static final int[] DEFAULT_PARAMS = {3,1,3,1}; // countInput countHiddenLayer countHidNeuron countOutPut
+    private Optimizer opt;
     private int[] params;
 
     public static Netable readCreateNet(String pathFile){
@@ -40,25 +43,30 @@ public class Net implements Netable, Serializable {
         this.layers = layers;
     }
 
-    public Net(ActivationFunction f, RandomGenerator<Double> r,  int ... params){
+    public Net(ActivationFunction f, RandomGenerator<Double> r, Optimizer opt,  int ... params){
         this.params = Arrays.copyOfRange(params, 0, 4);
         this.layers = new ArrayList<>();
         for (int i = 0; i < this.params.length; i++) {
             this.params[i] = this.params[i] == 0 ? DEFAULT_PARAMS[i]: this.params[i]; 
         }
-        layers.add(new LayerHidden(this.params[0], this.params[2], f,r));
+        layers.add(new LayerHidden(this.params[0], this.params[2], f,opt,r));
         for (int i = 0; i < this.params[1] - 1; i++) {
-            layers.add(new LayerHidden(this.params[2], this.params[2], f,r));
+            layers.add(new LayerHidden(this.params[2], this.params[2], f,opt,r));
         }
-        layers.add(new LayerOutput(this.params[2], this.params[3], f,r));
+        layers.add(new LayerOutput(this.params[2], this.params[3], f,opt,r));
+        this.opt = opt;
     }
 
-    public Net(int ... params){
-        this(new LogSigmoid(), new RandomGeneratorGaussian(), params);
+    public Net(double rate,int ... params){
+        this(new LogSigmoid(), new RandomGeneratorGaussian(), new SGD(rate), params);
     }
 
-    public Net(ActivationFunction f,int ... params){
-        this(f, new RandomGeneratorGaussian(), params);
+    public Net(ActivationFunction f,double rate,int ... params){
+        this(f, new RandomGeneratorGaussian(),new SGD(rate), params);
+    }
+
+    public Net(ActivationFunction f,Optimizer opt,int ... params){
+        this(f, new RandomGeneratorGaussian(),opt, params);
     }
 
     @Override
