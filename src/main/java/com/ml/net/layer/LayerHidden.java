@@ -12,6 +12,7 @@ public class LayerHidden implements Layerable, Serializable {
     private static final long serialVersionUID = 1L;
     private Matrix<Double> matrix;
     private Matrix<Double> biases;
+    private Matrix<Double> x;
     private Matrix<Double> y;
     private ActivationFunction func;
     private RandomGenerator<Double> rg;
@@ -28,20 +29,24 @@ public class LayerHidden implements Layerable, Serializable {
 
     @Override
     public Matrix<Double> ford(Matrix<Double> m) {
-        this.y = m.dot(this.matrix)
-            .add(biases)
+        this.x = m.dot(this.matrix)
+            .add(biases);
+        this.y = this.x
             .map(x -> func.apply(x));
         return this.y;
     }
 
     @Override
     public Matrix<Double> back(Matrix<Double> m, double coff) {
-        var d = matrix.transpose().dot(m).map(x -> func.difApply(x));
-
         
-        this.matrix = matrix.add(y.transpose().dot(d).map(x -> x * coff).transpose());
+        var d = m
+            .mult(x.map(x -> func.difApply(x)));
+            
+        
+        this.matrix = matrix.add(y.mult(d).map(x -> x * coff));
         this.biases = biases.map(x -> x + d.sum(0, 0)*coff);
-        return d;
+        
+        return d.dot(matrix.transpose());
     }
     
 }

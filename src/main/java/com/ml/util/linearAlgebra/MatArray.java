@@ -58,6 +58,11 @@ public class MatArray implements Matrix<Double>, Serializable {
         int rn1 = matrix.length;
         int rn2 = m.getDimensions()[0];
         int rm2 = m.getDimensions()[1];
+        if (rm1 != rn2) 
+            throw new IllegalArgumentException("""
+                Number of columns in  first matrix 
+                is ​​not equal to  number of rows in second
+            """);
         double[][] res = new double[rn1][rm2];
         for (int i = 0; i < rn1; i++) {
             for (int j = 0; j < rm2; j++) {

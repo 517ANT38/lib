@@ -12,6 +12,7 @@ public class LayerOutput implements Layerable, Serializable{
     private static final long serialVersionUID = 1L;
     private Matrix<Double> matrix;
     private Matrix<Double> biases;
+    private Matrix<Double> x;
     private Matrix<Double> y;
     private ActivationFunction func;
     private RandomGenerator<Double> rg;
@@ -27,26 +28,24 @@ public class LayerOutput implements Layerable, Serializable{
     }
     @Override
     public Matrix<Double> ford(Matrix<Double> m) {
-        this.y = m.dot(this.matrix)
-            .add(biases)
+        this.x = m.dot(this.matrix)
+            .add(biases);
+        this.y = this.x
             .map(x -> func.apply(x));
         return this.y;
     }
     @Override
     public Matrix<Double> back(Matrix<Double> m, double coff) {
-        var d = this.y.sub(m).map(x -> func.difApply(x));
+        var d = x.map(u -> func.difApply(u))            
+            .mult(this.y.sub(m));
         
         this.matrix = matrix.add(y
             .mult(d)
             .map(x -> x * coff));
         this.biases = biases.map(x -> x + d.sum(0, 0)*coff);// научиться находить сумму элементов строки (столбца)
-        var e = d.get(0, 0);
-        var resMat = new MatArray(1, matrix.getDimensions()[0]);
-        for (int i = 0; i < matrix.getDimensions()[0]; i++) {
-            resMat.set(0, i, e);
-        }
+        
            
-        return resMat.transpose();
+        return d.dot(matrix.transpose());
     }
 
     
