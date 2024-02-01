@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.ml.net.Net;
 import com.ml.optimizer.Optimizer;
+import com.ml.optimizer.RMSProp;
 import com.ml.optimizer.SGD;
 import com.ml.util.activationFunction.LogSigmoid;
 import com.ml.util.activationFunction.SingleLeap;
@@ -18,7 +19,7 @@ public class App
     {
         Net net = new Net(new LogSigmoid(),3,34,1,3);
         
-        Optimizer opt = new SGD(8, 0.000000001, 0.1, new MeanSquarErr());
+        Optimizer opt = new RMSProp(8, 0.000000001, 0.11,0.1, new MeanSquarErr());
 
         System.out.println(net.getResult(new MatArray(new double[][]{{0,1,1}})));
         opt.opt(net, new double[][]{
