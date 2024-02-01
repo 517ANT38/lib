@@ -29,8 +29,8 @@ public class RMSProp implements Optimizer {
     @Override
     public Matrix<Double> optWs(Matrix<Double> ws, Matrix<Double> d, Matrix<Double> y) {
         if(posLayerW == 0)
-            posLayerW = countLayer;
-        var s = grads.get(countLayer);
+            posLayerW = countLayer - 1;
+        var s = grads.get(posLayerW);
         var dw = y.mult(d);
         if(s != null){
             dw = s.map(x -> x * iner).add(dw.map(x -> x*(1 - iner)));
