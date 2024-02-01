@@ -11,12 +11,12 @@ public class SGD implements Optimizer{
 
     @Override
     public Matrix<Double> optWs(Matrix<Double> ws, Matrix<Double> d, Matrix<Double> y) {
-        return ws.add(y.mult(d).map(x -> x * rate));
+        return ws.add(y.mult(d).map(x -> x * (-rate)));
     }
 
     @Override
     public Matrix<Double> optBs(Matrix<Double> bs, Matrix<Double> d) {
-        return bs.map(x -> x + d.sum(0, 0)*rate);
+        return bs.map(x -> x + d.sum(0, 0)*(-rate));
     }
     
 }
