@@ -10,11 +10,10 @@ import com.ml.util.lossFunction.LossFunction;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
-public class SGD implements Optimizer  {
+public class OptIterIpml implements OptIter  {
     private final Random RND = new Random(); 
     private int epoch;
     private double eps;
-    private double rate;
     private LossFunction<Double> loss;   
 
 
@@ -31,7 +30,7 @@ public class SGD implements Optimizer  {
             var tmp = y;
             for (int j = layers.size() - 1; j >= 0; j--) {
                 var l = layers.get(j);
-                tmp = l.back(tmp, rate);
+                tmp = l.back(tmp);
             }
         }
     }
