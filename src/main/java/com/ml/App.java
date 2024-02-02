@@ -10,7 +10,8 @@ import com.ml.net.layer.LayerOutput;
 import com.ml.net.layer.Layerable;
 import com.ml.optimizer.OptIter;
 import com.ml.optimizer.OptIterIpml;
-import com.ml.optimizer.util.RMSProp;
+import com.ml.optimizer.util.MomentumSGD;
+import com.ml.optimizer.util.NAG;
 import com.ml.optimizer.util.SGD;
 import com.ml.util.activationFunction.LogSigmoid;
 import com.ml.util.activationFunction.Sin;
@@ -24,9 +25,9 @@ public class App
     {
         var rg = new RandomGeneratorGaussian();
         var func = new LogSigmoid();
-        Layerable layerInpt = new LayerHidden(3, 2, func , new RMSProp(0.11, 0.1), rg);
-        Layerable layerHid = new LayerHidden(2, 2, func , new RMSProp(0.11, 0.1), rg);
-        Layerable layerOut = new LayerOutput(2, 3, func , new RMSProp(0.11, 0.1), rg);
+        Layerable layerInpt = new LayerHidden(3, 2, func , new NAG(0.11, 0.1), rg);
+        Layerable layerHid = new LayerHidden(2, 2, func , new NAG(0.11, 0.1), rg);
+        Layerable layerOut = new LayerOutput(2, 3, func , new NAG(0.11, 0.1), rg);
         var lst = List.of(layerInpt,layerHid,layerOut);
         Net net = new Net(lst);
         
