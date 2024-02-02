@@ -16,7 +16,7 @@ public class Adagrad implements Optimizer {
     }
 
     public Adagrad(double rate, double iner){
-        this(rate,iner,10e-2);
+        this(rate,iner,10e-6);
     }
 
     @Override
@@ -29,7 +29,7 @@ public class Adagrad implements Optimizer {
         }
         this.grad = dw;
         return ws.add(g.map(x -> x * (-rate))
-            .divide(grad.map(x -> Math.sqrt(x + ep))));
+            .divide(grad.map(x -> Math.sqrt(Math.abs(x + ep)))));
     }
 
     @Override
