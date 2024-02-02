@@ -110,7 +110,7 @@ public class MatArray implements Matrix<Double>, Serializable {
                 else if(dms[0] == 1 && dms[1] == 1)
                     res[i][j] = matrix[i][j] - m.get(0, 0);
                 else 
-                    throw new IllegalArgumentException("Dimensions row or col not equal");
+                    res[i][j] = matrix[i][j] - m.get(i, j);
             }
         }
         return new MatArray(res);
