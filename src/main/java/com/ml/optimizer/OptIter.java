@@ -4,7 +4,7 @@ package com.ml.optimizer;
 
 import com.ml.net.Netable;
 
-public interface Optimizer {
+public interface OptIter {
 
     void opt(Netable net, double[][] xs,double[][] ys);
     

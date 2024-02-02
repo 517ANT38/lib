@@ -1,11 +1,12 @@
 package com.ml.net.layer;
 
 import java.io.Serializable;
+
+import com.ml.optimizer.util.Optimizer;
 import com.ml.util.activationFunction.ActivationFunction;
 import com.ml.util.linearAlgebra.MatArray;
 import com.ml.util.linearAlgebra.Matrix;
 import com.ml.util.randomGenMatrix.RandomGenerator;
-import com.ml.util.randomGenMatrix.RandomGeneratorR;
 
 public class LayerHidden implements Layerable, Serializable {
 
@@ -14,18 +15,18 @@ public class LayerHidden implements Layerable, Serializable {
     private Matrix<Double> biases;
     private Matrix<Double> x;
     private Matrix<Double> y;
+    private Optimizer optimizer;
     private ActivationFunction func;
     private RandomGenerator<Double> rg;
 
-    public LayerHidden(int input, int countNeuron, ActivationFunction func, RandomGenerator<Double> rg){
+    public LayerHidden(int input, int countNeuron, ActivationFunction func, Optimizer optimizer, RandomGenerator<Double> rg){
         this.matrix = rg.genRand(input, countNeuron);
         this.biases = new MatArray(1, countNeuron);
         this.func = func;
         this.rg = rg;
+        this.optimizer = optimizer;
     }
-    public LayerHidden(int input, int countNeuron, ActivationFunction func){
-        this(input, countNeuron, func, new RandomGeneratorR());
-    }
+   
 
     @Override
     public Matrix<Double> ford(Matrix<Double> m) {
@@ -37,16 +38,22 @@ public class LayerHidden implements Layerable, Serializable {
     }
 
     @Override
-    public Matrix<Double> back(Matrix<Double> m, double coff) {
+    public Matrix<Double> back(Matrix<Double> m) {
         
         var d = m
             .mult(x.map(x -> func.difApply(x)));
             
         
-        this.matrix = matrix.add(y.mult(d).map(x -> x * coff));
-        this.biases = biases.map(x -> x + d.sum(0, 0)*coff);
+        this.matrix = optimizer.optWs(matrix, d, y);
+        this.biases = optimizer.optBs(biases, d);
         
         return d.dot(matrix.transpose());
+    }
+
+
+    @Override
+    public void cleanState() {
+        optimizer.cleanState();
     }
     
 }
