@@ -26,7 +26,6 @@ public class Net implements Netable, Serializable {
     private static final long serialVersionUID = 1L;
     private List<Layerable> layers;
     private transient static final int[] DEFAULT_PARAMS = {3,1,3,1}; // countInput countHiddenLayer countHidNeuron countOutPut
-    private Optimizer opt;
     private int[] params;
 
     public static Netable readCreateNet(String pathFile){
@@ -54,7 +53,7 @@ public class Net implements Netable, Serializable {
             layers.add(new LayerHidden(this.params[2], this.params[2], f,opt,r));
         }
         layers.add(new LayerOutput(this.params[2], this.params[3], f,opt,r));
-        this.opt = opt;
+        
     }
 
     public Net(double rate,int ... params){
