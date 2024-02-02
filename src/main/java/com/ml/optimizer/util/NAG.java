@@ -21,7 +21,8 @@ public class NAG implements Optimizer {
         var prevVelocity = velocity;
         velocity = velocity
             .map(x -> x * iner)
-            .sub(d.map(x -> x * (-rate)));
+            .sub(d.map(x -> x * (-rate)))
+            .mult(y).map(x -> x * (-rate) * (1 - iner));
         ws = ws.sub(prevVelocity.map(x -> x * iner)).add(velocity);
         return ws;
     }
