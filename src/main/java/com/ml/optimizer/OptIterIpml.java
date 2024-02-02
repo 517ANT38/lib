@@ -3,6 +3,7 @@ package com.ml.optimizer;
 import java.util.Random;
 
 import com.ml.net.Netable;
+import com.ml.net.layer.Layerable;
 import com.ml.util.linearAlgebra.MatArray;
 import com.ml.util.linearAlgebra.Matrix;
 import com.ml.util.lossFunction.LossFunction;
@@ -32,6 +33,9 @@ public class OptIterIpml implements OptIter  {
                 var l = layers.get(j);
                 tmp = l.back(tmp);
             }
+        }
+        for (Layerable layerable : layers) {
+            layerable.cleanState();
         }
     }
     

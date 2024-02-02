@@ -49,5 +49,11 @@ public class LayerHidden implements Layerable, Serializable {
         
         return d.dot(matrix.transpose());
     }
+
+
+    @Override
+    public void cleanState() {
+        optimizer.cleanState();
+    }
     
 }
