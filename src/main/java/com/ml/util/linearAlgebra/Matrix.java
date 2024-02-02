@@ -10,6 +10,7 @@ public interface Matrix<T extends Number> {
     Matrix<T> add(Matrix<T> m);
     Matrix<T> sub(Matrix<T> m);
     Matrix<T> mult(Matrix<T> m);
+    Matrix<T> divide(Matrix<T> m);
     Matrix<T> map(Function<T,T> func);
     int[] getDimensions();
     Matrix<T> getVector(int index, int axis);

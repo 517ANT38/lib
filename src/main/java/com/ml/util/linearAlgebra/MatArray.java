@@ -193,6 +193,26 @@ public class MatArray implements Matrix<Double>, Serializable {
         }
         return new MatArray(res);
     }
+    @Override
+    public Matrix<Double> divide(Matrix<Double> m) {
+        var dms = m.getDimensions();
+        var n = matrix.length;
+        var mm = matrix[0].length;
+        double[][] res = new double[n][mm];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < mm; j++) {
+                if(dms[0] == 1)
+                    res[i][j] = matrix[i][j] / m.get(0, j);
+                else if(dms[1] == 1)
+                    res[i][j] = matrix[i][j] / m.get(i, 0);
+                else if(dms[0] == 1 && dms[1] == 1)
+                    res[i][j] = matrix[i][j] / m.get(0, 0);
+                else 
+                    res[i][j] = matrix[i][j] / m.get(i, j);
+            }
+        }
+        return new MatArray(res);
+    }
     
 
     
