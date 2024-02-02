@@ -3,12 +3,10 @@ package com.ml.net.layer;
 import java.io.Serializable;
 
 import com.ml.optimizer.util.Optimizer;
-import com.ml.optimizer.util.SGD;
 import com.ml.util.activationFunction.ActivationFunction;
 import com.ml.util.linearAlgebra.MatArray;
 import com.ml.util.linearAlgebra.Matrix;
 import com.ml.util.randomGenMatrix.RandomGenerator;
-import com.ml.util.randomGenMatrix.RandomGeneratorR;
 
 public class LayerHidden implements Layerable, Serializable {
 
