@@ -24,9 +24,10 @@ public class RMSProp implements Optimizer {
         var dw = y.mult(d);
         if(grad != null){            
             dw = grad.map(x -> x * iner)
-                .add(dw.map(x -> x*(1 - iner)));
+                .add(dw.map(x -> x*(1 - iner)))
+                .map(x -> x * (-rate));
         }
-        
+        this.grad = dw;
         return ws.add(dw);
     }
 
