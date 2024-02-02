@@ -6,13 +6,13 @@ import com.ml.util.linearAlgebra.Matrix;
 
 
 
-public class RMSProp implements Optimizer {
+public class MomentumSGD implements Optimizer {
 
     private double rate;
     private double iner;
     private Matrix<Double> grad;
     
-    public RMSProp(double rate, double iner) {
+    public MomentumSGD(double rate, double iner) {
         this.rate = rate;
         this.iner = iner;
     }
