@@ -63,7 +63,7 @@ public class App
         Layerable out = new LayerOutput(2, 10, func, sgd, rg);
 
         Netable net = new Net(List.of(input,out));
-        OptIter optIter = new OptIterIpml(1000, 1.0, new MeanSquarErr());
+        OptIter optIter = new OptIterIpml(1000, 0.8, new MeanSquarErr());
 
         var errs = optIter.opt(net, set, res);
         for (var double1 : errs) {
