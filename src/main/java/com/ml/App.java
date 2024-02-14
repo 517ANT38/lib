@@ -2,7 +2,15 @@ package com.ml;
 
 
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
+
+import javax.imageio.ImageIO;
 
 import com.ml.net.Net;
 import com.ml.net.layer.LayerHidden;
@@ -22,26 +30,28 @@ import com.ml.util.randomGenMatrix.RandomGeneratorGaussian;
 
 public class App 
 {
-    public static void main( String[] args )
+    public static void main( String[] args ) throws IOException
     {
-        var rg = new RandomGeneratorGaussian();
-        var func = new LogSigmoid();
-        Layerable layerInpt = new LayerHidden(3, 5, func , new Adagrad(0.11, 0.1), rg);
-        Layerable layerHid = new LayerHidden(5, 5, func , new Adagrad(0.11, 0.1), rg);
-        Layerable layerOut = new LayerOutput(5, 3, func , new Adagrad(0.11, 0.1), rg);
-        var lst = List.of(layerInpt,layerHid,layerOut);
-        Net net = new Net(lst);
+        // var rg = new RandomGeneratorGaussian();
+        // var func = new LogSigmoid();
+        // Layerable layerInpt = new LayerHidden(3, 5, func , new Adagrad(0.11, 0.1), rg);
+        // Layerable layerHid = new LayerHidden(5, 5, func , new Adagrad(0.11, 0.1), rg);
+        // Layerable layerOut = new LayerOutput(5, 3, func , new Adagrad(0.11, 0.1), rg);
+        // var lst = List.of(layerInpt,layerHid,layerOut);
+        // Net net = new Net(lst);
         
-        OptIter opt = new OptIterIpml(1000,0.01, new MeanSquarErr());
+        // OptIter opt = new OptIterIpml(1000,0.01, new MeanSquarErr());
 
-        System.out.println(net.getResult(new MatArray(new double[][]{{0,1,1}})));
-        opt.opt(net, new double[][]{
-            {0,0,0},{1,0,1},{0,1,1},{1,1,1}
-        },new double[][]{{0,0,0},{1,1,1},{1,1,1},{0,0,0}});
-        System.out.println(net.getResult(new MatArray(new double[][]{{0,1,1}})));
+        // System.out.println(net.getResult(new MatArray(new double[][]{{0,1,1}})));
+        // opt.opt(net, new double[][]{
+        //     {0,0,0},{1,0,1},{0,1,1},{1,1,1}
+        // },new double[][]{{0,0,0},{1,1,1},{1,1,1},{0,0,0}});
+        // System.out.println(net.getResult(new MatArray(new double[][]{{0,1,1}})));
        
         // net.serialization("net");
         // var net1 = Net.readCreateNet("net");
         // System.out.println(net.getResult(new MatArray(new double[][]{{0,1}})));
+        
     }
+    
 }
