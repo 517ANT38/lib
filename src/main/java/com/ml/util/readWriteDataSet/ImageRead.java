@@ -5,6 +5,9 @@ import java.io.File;
 
 import javax.imageio.ImageIO;
 
+import boofcv.io.image.ConvertBufferedImage;
+// import boofcv.io.*;;
+import boofcv.struct.image.GrayU8;
 import lombok.SneakyThrows;
 
 public class ImageRead {
@@ -12,20 +15,21 @@ public class ImageRead {
     @SneakyThrows
     public double[] read(String path){
         var b = ImageIO.read(new File(path));
-        return convertTo2DWithoutUsingGetRGB(b);
+        GrayU8 grayImage = ConvertBufferedImage.convertFromSingle(b, null, GrayU8.class);
+        return convertTo2DWithoutUsingGetRGB(grayImage);
     }
-    private static double[] convertTo2DWithoutUsingGetRGB(BufferedImage image) {
+    private static double[] convertTo2DWithoutUsingGetRGB(GrayU8 grayImage) {
 
-        int width = image.getWidth();
-        int height = image.getHeight();
+        int width = grayImage.getWidth();
+        int height = grayImage.getHeight();
 
+        // Преобразование в одномерный double массив
         double[] pixels = new double[width * height];
-
+        int index = 0;
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                int pixel = image.getRGB(x, y);
-                int gray = (pixel & 0xff) < 128 ? 0 : 255; 
-                pixels[y * width + x] = gray;
+                pixels[index] = grayImage.get(x, y);
+                index++;
             }
         }
         return pixels;
