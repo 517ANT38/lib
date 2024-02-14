@@ -29,7 +29,7 @@ public class App
         double[][] set = new double[10][];
         double[][] res = new double[10][10];
         
-        for (int i = 0; i < 9; i++) {            
+        for (int i = 0; i < set.length; i++) {            
 
             set[i] = imageRead.read("example/"+i+".jpg");
             set[i] = normalizer.normolize(set[i]);
