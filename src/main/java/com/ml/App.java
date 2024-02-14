@@ -2,6 +2,7 @@ package com.ml;
 
 
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -36,31 +37,32 @@ public class App
     {
         var imageRead = new ImageRead();
         Normolizable normalizer = new NormolizableIml(); 
-        double[][] set = new double[10][];
-        double[][] res = new double[10][10];
         
-        for (int i = 0; i < set.length; i++) {            
-
-            set[i] = imageRead.read("example/"+i+".jpg");
-            set[i] = normalizer.normolize(set[i]);
-        }
         
-        for (int i = 0; i < res.length; i++) {
-            for (int j = 0; j < res.length; j++) {
-                res[i][j]=1;
+        File folder = new File("example");
+        File[] files = folder.listFiles();
+        int n = files.length;
+        double[][] set = new double[n][];
+        double[][] res = new double[n][];
+   
+        int i = 0;
+        
+        for (File file : files) {
+            if (file.isFile()) {
+                var name = file.getName();
+                set[i] = imageRead.read("example/"+name);
+                res[i++] = getFlagValue(name.split(".jpg")[0]);
             }
-            res[i][i]=0;
         }
-       
+
         var rg = new RandomGeneratorGaussian();
         var func = new LogSigmoid();
-        // var sgd = new SGD(0.31221);
-        Layerable input = new LayerHidden(set[0].length, 2, func,new NAG(0.12, 0.1),rg);
-        Layerable hidden1 = new LayerHidden(2, 2, func,new NAG(0.12, 0.1),rg);
-        Layerable out = new LayerOutput(2, 10, func, new NAG(0.12, 0.1), rg);
+        var sgd = new SGD(0.11);
 
-        Netable net = new Net(List.of(input,hidden1,out));
+        Layerable input = new LayerHidden(set[0].length, 2, func,sgd,rg);       
+        Layerable out = new LayerOutput(2, 10, func, sgd, rg);
 
+        Netable net = new Net(List.of(input,out));
         OptIter optIter = new OptIterIpml(1000, 1.0, new MeanSquarErr());
 
         var errs = optIter.opt(net, set, res);
@@ -71,7 +73,19 @@ public class App
         net.serialization("net");
         
         var net1 = Net.readCreateNet("net");       
-        System.out.println(net1.getResult(new MatArray(new double[][]{set[8]})));
+        System.out.println(net1.getResult(new MatArray(new double[][]{set[0]})));
+        // System.out.println(net1.getResult(new MatArray(new double[][]{set[3]})));
     }
     
+
+    private static double[] getFlagValue(String val){
+        int x = Integer.parseInt(val);
+        double[] arr = new double[10];
+
+        while (x!=0) {
+            arr[x%10]=1;
+            x/=10;
+        }
+        return arr;
+    }
 }

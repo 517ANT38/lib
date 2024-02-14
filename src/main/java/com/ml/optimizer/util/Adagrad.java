@@ -36,7 +36,7 @@ public class Adagrad implements Optimizer, Serializable {
 
     @Override
     public Matrix<Double> optBs(Matrix<Double> bs, Matrix<Double> d) {
-        return bs.map(x -> x + d.sum(0, 0)*(-rate));
+        return bs.map(x -> x - d.sum(0, 0)*(-rate));
     }
 
     @Override
