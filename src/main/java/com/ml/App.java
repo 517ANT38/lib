@@ -15,6 +15,7 @@ import com.ml.optimizer.OptIter;
 import com.ml.optimizer.OptIterIpml;
 import com.ml.optimizer.util.Adagrad;
 import com.ml.optimizer.util.MomentumSGD;
+import com.ml.optimizer.util.NAG;
 import com.ml.optimizer.util.SGD;
 import com.ml.util.activationFunction.HyperbolicTg;
 import com.ml.util.activationFunction.LogSigmoid;
@@ -43,22 +44,24 @@ public class App
             set[i] = imageRead.read("example/"+i+".jpg");
             set[i] = normalizer.normolize(set[i]);
         }
+        
         for (int i = 0; i < res.length; i++) {
-            
-            res[i][i]=1;
+            for (int j = 0; j < res.length; j++) {
+                res[i][j]=1;
+            }
+            res[i][i]=0;
         }
        
         var rg = new RandomGeneratorGaussian();
         var func = new LogSigmoid();
-        var sgd = new SGD(0.11);
-        Layerable input = new LayerHidden(set[0].length, 2, func,sgd,rg);
-        Layerable hidden1 = new LayerHidden(2, 2, func,sgd,rg);
-        Layerable hidden2 = new LayerHidden(2, 2, func,sgd,rg);
-        Layerable out = new LayerOutput(2, 10, func, sgd, rg);
+        // var sgd = new SGD(0.31221);
+        Layerable input = new LayerHidden(set[0].length, 2, func,new NAG(0.12, 0.1),rg);
+        Layerable hidden1 = new LayerHidden(2, 2, func,new NAG(0.12, 0.1),rg);
+        Layerable out = new LayerOutput(2, 10, func, new NAG(0.12, 0.1), rg);
 
-        Netable net = new Net(List.of(input,hidden1,hidden2,out));
+        Netable net = new Net(List.of(input,hidden1,out));
 
-        OptIter optIter = new OptIterIpml(100, 1.0764, new MeanSquarErr());
+        OptIter optIter = new OptIterIpml(1000, 1.0, new MeanSquarErr());
 
         var errs = optIter.opt(net, set, res);
         for (var double1 : errs) {
