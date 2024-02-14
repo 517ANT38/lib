@@ -1,10 +1,15 @@
 package com.ml;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+
+import lombok.SneakyThrows;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
 
 public class NumberImageGenerator extends JFrame {
 
@@ -14,6 +19,7 @@ public class NumberImageGenerator extends JFrame {
     private JButton generateButton;
     private BufferedImage image;
 
+    private static final String path = "example";
     private static final int WIDTH = 400; // Ширина окна
     private static final int HEIGHT = 200; // Высота окна
     private static final Font FONT = new Font("Arial", Font.BOLD, 100);
@@ -46,26 +52,39 @@ public class NumberImageGenerator extends JFrame {
         setVisible(true);
     }
 
+
+    private static void drawNum(BufferedImage image,int number){
+        Graphics2D graphics = image.createGraphics();
+        graphics.setBackground(Color.WHITE);
+        graphics.clearRect(0, 0, WIDTH, HEIGHT);
+
+        graphics.setFont(FONT);
+        graphics.setColor(Color.BLACK);
+        String numberString = String.valueOf(number);
+        int stringWidth = graphics.getFontMetrics().stringWidth(numberString);
+        int x = (WIDTH - stringWidth) / 2;
+        int y = HEIGHT / 2;
+        graphics.drawString(numberString, x, y);
+
+        graphics.dispose();
+    }
+
+
+    @SneakyThrows
+    private static void generateImg(int num, BufferedImage image) {
+        new File(path).mkdir();
+        ImageIO.write(image, "jpg", new File(path+"/"+num+".jpg"));
+    }
+
     private void generateImage() {
         try {
             int number = Integer.parseInt(numberField.getText());
 
             // Create a white image of size 100x100 pixels
             image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
-            Graphics2D graphics = image.createGraphics();
-            graphics.setBackground(Color.WHITE);
-            graphics.clearRect(0, 0, WIDTH, HEIGHT);
 
-            graphics.setFont(FONT);
-            graphics.setColor(Color.BLACK);
-            String numberString = String.valueOf(number);
-            int stringWidth = graphics.getFontMetrics().stringWidth(numberString);
-            int x = (WIDTH - stringWidth) / 2;
-            int y = HEIGHT / 2;
-            graphics.drawString(numberString, x, y);
-
-            graphics.dispose();
-
+            drawNum(image, number);
+            generateImg(number,image);
             // Show the image in a new window
             JFrame imageFrame = new JFrame("Number Image");
             imageFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
