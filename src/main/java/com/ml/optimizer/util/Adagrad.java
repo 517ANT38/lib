@@ -1,9 +1,11 @@
 package com.ml.optimizer.util;
 
+import java.io.Serializable;
+
 import com.ml.util.linearAlgebra.Matrix;
 
-public class Adagrad implements Optimizer {
-
+public class Adagrad implements Optimizer, Serializable {
+    private static final long serialVersionUID = 1L;
     private Matrix<Double> grad;
     private double rate;
     private double iner;

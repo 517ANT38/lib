@@ -2,11 +2,13 @@ package com.ml.optimizer.util;
 
 
 
+import java.io.Serializable;
+
 import com.ml.util.linearAlgebra.Matrix;
 
 
 
-public class MomentumSGD implements Optimizer {
+public class MomentumSGD implements Optimizer, Serializable {
 
     private double rate;
     private double iner;

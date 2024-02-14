@@ -1,12 +1,14 @@
 package com.ml.optimizer.util;
 
+import java.io.Serializable;
+
 import com.ml.util.linearAlgebra.Matrix;
 
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
-public class SGD implements Optimizer{
-
+public class SGD implements Optimizer, Serializable{
+    private static final long serialVersionUID = 1L;
     private double rate;
 
     @Override

@@ -1,9 +1,11 @@
 package com.ml.optimizer.util;
 
+import java.io.Serializable;
+
 import com.ml.util.linearAlgebra.Matrix;
 
-public class NAG implements Optimizer {
-
+public class NAG implements Optimizer, Serializable {
+    private static final long serialVersionUID = 1L;
     private double iner;
     private double rate;
     private Matrix<Double> velocity;
