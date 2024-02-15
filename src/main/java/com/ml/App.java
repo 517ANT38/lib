@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ml.models.SimpleModel;
 import com.ml.net.Net;
 import com.ml.net.Netable;
 import com.ml.net.layer.LayerHidden;
@@ -48,32 +49,19 @@ public class App
             }
         }
 
-        var rg = new RandomGeneratorR();
-        var func = new LogSigmoid();
-        var sgd = new SGD(0.18);
 
-        List<Layerable> layers = new ArrayList<>();
-        Layerable input = new LayerHidden(set[0].length, 20, func,sgd,rg);
-        layers.add(input);
-        for (int j = 0; j < 8; j++) {
-            layers.add(new LayerHidden(20, 20, func,sgd, rg));
-        }         
-        Layerable out = new LayerOutput(20, 10, func, sgd, rg);
-        layers.add(out);
-        Netable net = new Net(layers);
-        OptIter optIter = new OptIterIpml(1000, 0.8, new MeanSquarErr());
-
-        var errs = optIter.opt(net, set, res);
+        var model = new SimpleModel(set[0].length, 9,20,10,1000,0.18,1. );
+        var errs = model.fit(set, res);
         for (var double1 : errs) {
             System.out.println(double1);
         }
-        net.serialization("net");
+        model.serialization("net");
         var test = imageRead.read("example/234.jpg");
 
         var test1 = imageRead.read("example/0.jpg");
-        var net1 = Net.readCreateNet("net");       
-        System.out.println(net1.getResult(new MatArray(new double[][]{test})));
-        System.out.println(net1.getResult(new MatArray(new double[][]{test1})));
+        var net1 = new SimpleModel("net");       
+        System.out.println(net1.predict(test));
+        System.out.println(net1.predict(test1));
         // System.out.println(net1.getResult(new MatArray(new double[][]{set[3]})));
     }
     
