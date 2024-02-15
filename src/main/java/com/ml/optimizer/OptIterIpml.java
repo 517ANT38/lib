@@ -29,8 +29,7 @@ public class OptIterIpml implements OptIter  {
             Matrix<Double> x = new MatArray(new double[][]{xs[ep]}); 
             Matrix<Double> y = new MatArray(new double[][]{ys[ep]});
             var res = net.getResult(x);
-            var err = loss.apply(res, y);
-            System.out.println(res);
+            var err = loss.apply(res, y);            
             errors.add(err);
             if(err < eps)
                 break;
