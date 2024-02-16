@@ -11,8 +11,6 @@ import com.ml.net.layer.Layerable;
 import com.ml.optimizer.OptIter;
 import com.ml.optimizer.OptIterIpml;
 import com.ml.optimizer.util.NAG;
-import com.ml.optimizer.util.Optimizer;
-import com.ml.optimizer.util.SGD;
 import com.ml.util.activationFunction.LogSigmoid;
 import com.ml.util.linearAlgebra.MatArray;
 import com.ml.util.linearAlgebra.Matrix;

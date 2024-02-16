@@ -4,26 +4,10 @@ package com.ml;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.ml.models.SimpleModel;
-import com.ml.net.Net;
-import com.ml.net.Netable;
-import com.ml.net.layer.LayerHidden;
-import com.ml.net.layer.LayerOutput;
-import com.ml.net.layer.Layerable;
-import com.ml.optimizer.OptIter;
-import com.ml.optimizer.OptIterIpml;
-import com.ml.optimizer.util.SGD;
-import com.ml.util.activationFunction.LogSigmoid;
 import com.ml.util.dataNormolize.Normolizable;
 import com.ml.util.dataNormolize.NormolizableIml;
 import com.ml.util.graphGui.GraphPanel;
-import com.ml.util.linearAlgebra.MatArray;
-import com.ml.util.lossFunction.MeanSquarErr;
-import com.ml.util.randomGenMatrix.RandomGeneratorGaussian;
-import com.ml.util.randomGenMatrix.RandomGeneratorR;
 import com.ml.util.readWriteDataSet.ImageRead;
 
 public class App 
@@ -46,6 +30,7 @@ public class App
             if (file.isFile()) {
                 var name = file.getName();
                 set[i] = imageRead.read("example/"+name);
+                set[i] = normalizer.normolize(set[i]);
                 res[i++] = getFlagValue(name.split(".jpg")[0]);
             }
         }

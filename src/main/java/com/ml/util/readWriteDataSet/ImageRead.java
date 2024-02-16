@@ -18,7 +18,7 @@ public class ImageRead {
         GrayU8 grayImage = ConvertBufferedImage.convertFromSingle(b, null, GrayU8.class);
         return convertTo2DWithoutUsingGetRGB(grayImage);
     }
-    private static double[] convertTo2DWithoutUsingGetRGB(GrayU8 grayImage) {
+    public static double[] convertTo2DWithoutUsingGetRGB(GrayU8 grayImage) {
 
         int width = grayImage.getWidth();
         int height = grayImage.getHeight();
