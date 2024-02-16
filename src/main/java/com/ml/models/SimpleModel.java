@@ -10,6 +10,7 @@ import com.ml.net.layer.LayerOutput;
 import com.ml.net.layer.Layerable;
 import com.ml.optimizer.OptIter;
 import com.ml.optimizer.OptIterIpml;
+import com.ml.optimizer.util.NAG;
 import com.ml.optimizer.util.Optimizer;
 import com.ml.optimizer.util.SGD;
 import com.ml.util.activationFunction.LogSigmoid;
@@ -31,17 +32,17 @@ public class SimpleModel implements Model {
     }    
 
 
-    public SimpleModel(int countInput,int countHiddenLayer,int countHiddenNeuron,int countOutput,int epoch, double rate,double eps) {
-        var sgd = new SGD(rate);
+    public SimpleModel(int countInput,int countHiddenLayer,int countHiddenNeuron,int countOutput,int epoch, double rate,double iner,double eps) {
+        
         var rg = new RandomGeneratorR();
         var func = new LogSigmoid();
         List<Layerable> layers = new ArrayList<>();
-        Layerable input = new LayerHidden(countInput, countHiddenNeuron, func,sgd,rg);
+        Layerable input = new LayerHidden(countInput, countHiddenNeuron, func,new NAG(rate, iner),rg);
         layers.add(input);
         for (int j = 0; j < countHiddenLayer - 1; j++) {
-            layers.add(new LayerHidden(countHiddenNeuron, countHiddenNeuron, func,sgd, rg));
+            layers.add(new LayerHidden(countHiddenNeuron, countHiddenNeuron, func,new NAG(rate, iner), rg));
         }         
-        Layerable out = new LayerOutput(countHiddenNeuron, countOutput, func, sgd, rg);
+        Layerable out = new LayerOutput(countHiddenNeuron, countOutput, func, new NAG(rate, iner), rg);
         layers.add(out);
         this.net = new Net(layers);
         this.optIter = new OptIterIpml(epoch, eps, new MeanSquarErr());

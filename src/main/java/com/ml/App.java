@@ -19,6 +19,7 @@ import com.ml.optimizer.util.SGD;
 import com.ml.util.activationFunction.LogSigmoid;
 import com.ml.util.dataNormolize.Normolizable;
 import com.ml.util.dataNormolize.NormolizableIml;
+import com.ml.util.graphGui.GraphPanel;
 import com.ml.util.linearAlgebra.MatArray;
 import com.ml.util.lossFunction.MeanSquarErr;
 import com.ml.util.randomGenMatrix.RandomGeneratorGaussian;
@@ -50,19 +51,17 @@ public class App
         }
 
 
-        var model = new SimpleModel(set[0].length, 9,20,10,1000,0.18,1. );
+        var model = new SimpleModel(set[0].length, 9,20,10,1000,0.2,0.15,0.5 );
+        
         var errs = model.fit(set, res);
-        for (var double1 : errs) {
-            System.out.println(double1);
-        }
+        GraphPanel.createGraphics(errs);
         model.serialization("net");
+        
         var test = imageRead.read("example/234.jpg");
-
         var test1 = imageRead.read("example/0.jpg");
         var net1 = new SimpleModel("net");       
         System.out.println(net1.predict(test));
         System.out.println(net1.predict(test1));
-        // System.out.println(net1.getResult(new MatArray(new double[][]{set[3]})));
     }
     
 
