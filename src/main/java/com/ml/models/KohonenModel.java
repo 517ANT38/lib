@@ -1,21 +1,26 @@
 package com.ml.models;
 
 
-import com.ml.util.graphGui.KohonenVisualization;
+import javax.swing.JFrame;
+
+import org.math.plot.Plot2DPanel;
+
+import com.ml.util.distances.Distable;
+import com.ml.util.distances.EuclideanDistance;
+import com.ml.util.graphGui.KohonenVisualizer;
 import com.ml.util.linearAlgebra.Matrix;
 import com.ml.util.randomGenMatrix.RandomGenerator;
 import com.ml.util.randomGenMatrix.RandomGeneratorR;
 
-import lombok.Getter;
 
 
-@Getter
 public class KohonenModel {
 
     private Matrix<Double> weightMatrix;
     private int inputSize;
     private int outputSize;
     private double learningRate;
+    private Distable distable = new EuclideanDistance();
     private RandomGenerator<Double> rGenerator = new RandomGeneratorR(); 
 
     public KohonenModel(int inputSize, int outputSize, double learningRate) {
@@ -27,18 +32,18 @@ public class KohonenModel {
     }
 
     public void train(Matrix<Double> inputMatrix, int epochs) {
-        KohonenVisualization visualization = new KohonenVisualization(this);
-
+        
+        KohonenVisualizer vs = new KohonenVisualizer(this);
         for (int epoch = 0; epoch < epochs; epoch++) {
             for (int i = 0; i < inputMatrix.getDimensions()[0]; i++) {
                 Matrix<Double> inputVector = inputMatrix.getVector(i, 0);
                 int winnerIndex = findNearestNeuron(inputVector);
                 updateWeights(winnerIndex, inputVector);
             }
-
-            
+           
         }
-        visualization.visualize(inputMatrix);
+        vs.visualize();
+        
     }
 
     public int predict(Matrix<Double> inputVector) {
@@ -48,9 +53,9 @@ public class KohonenModel {
 
     private int findNearestNeuron(Matrix<Double> inputVector) {
         int winnerIndex = 0;
-        var minDistance = distance(inputVector, weightMatrix.getVector(0, 0));
+        var minDistance = distable.distance(inputVector, weightMatrix.getVector(0, 0));
         for (int i = 1; i < outputSize; i++) {
-            var distance = distance(inputVector, weightMatrix.getVector(i, 0));
+            var distance = distable.distance(inputVector, weightMatrix.getVector(i, 0));
             if (distance < minDistance) {
                 minDistance = distance;
                 winnerIndex = i;
@@ -68,10 +73,19 @@ public class KohonenModel {
         }
     }
 
-    private double distance(Matrix<Double> v1, Matrix<Double> v2) {
-        var sum = v1.sub(v2).map(x -> x.doubleValue() * x.doubleValue()).sum(0, 1);
-        return  Math.sqrt(sum.doubleValue());
+    public int getInputSize() {
+        return inputSize;
     }
+
+    public int getOutputSize() {
+        return outputSize;
+    }
+
+    public Matrix<Double> getWeightMatrix() {
+        return weightMatrix;
+    }
+
+    
 
 }
 
