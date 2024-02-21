@@ -23,8 +23,8 @@ public class AppKohonen {
             res[i] = ds.get(i).getYs();
         }
         var mat = new MatArray(set);
-        KohonenModel model = new KohonenModel(set[0].length, res[0].length, 0.08,0.08,0.5);
-        var errs = model.train(mat, 500,10e-40);
+        KohonenModel model = new KohonenModel(set[0].length, res[0].length, 0.01,0,0.1);
+        var errs = model.train(mat, 500,10e-40,100,"airs");
         System.out.println(errs);
         GraphPanel.createGraphics(errs);
     }

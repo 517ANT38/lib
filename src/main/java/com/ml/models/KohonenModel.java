@@ -45,12 +45,15 @@ public class KohonenModel {
         this.offset = offset;
     }
 
-    public List<Double> train(Matrix<Double> inputMatrix, int epochs, double minError) {
+    public List<Double> train(Matrix<Double> inputMatrix, int epochs, double minError, int freqCreateMmap, String preffixName) {
         double totalError = 0.0;
         List<Double> errs = new ArrayList<>();
         KohonenMapVisualizer v = new KohonenMapVisualizer();
-        v.visualize(weightMatrix.toArr(), "first");
+        
         for (int epoch = 0; epoch < epochs; epoch++) {
+            if (epoch % freqCreateMmap == 0) {
+                v.visualize(weightMatrix.toArr(), preffixName+"_"+epoch);
+            }
             for (int i = 0; i < inputMatrix.getDimensions()[0]; i++) {
                 Matrix<Double> inputVector = inputMatrix.getVector(i, 0);
                 int winnerIndex = findNearestNeuron(inputVector);
@@ -70,7 +73,7 @@ public class KohonenModel {
             }
            
         }
-        v.visualize(weightMatrix.toArr(), "res");
+        
         return errs;
     }
 
