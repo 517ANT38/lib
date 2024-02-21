@@ -5,6 +5,7 @@ import java.io.File;
 import com.ml.models.KohonenModel;
 import com.ml.util.dataNormolize.Normolizable;
 import com.ml.util.dataNormolize.NormolizableIml;
+import com.ml.util.graphGui.GraphPanel;
 import com.ml.util.linearAlgebra.MatArray;
 import com.ml.util.readWriteDataSet.ImageRead;
 import com.ml.util.readWriteDataSet.ReadCSVFileForAirplanes;
@@ -27,7 +28,9 @@ public class AppKohonen {
             res[i] = ds.get(i).getYs();
         }
         var mat = new MatArray(set);
-        KohonenModel model = new KohonenModel(set[0].length, res[0].length, 0.1,0.8,0.5);
-        model.train(mat, 500,0.001);
+        KohonenModel model = new KohonenModel(set[0].length, res[0].length, 0.08,0.08,0.5);
+        var errs = model.train(mat, 500,10e-40);
+        System.out.println(errs);
+        GraphPanel.createGraphics(errs);
     }
 }

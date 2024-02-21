@@ -8,9 +8,11 @@ import java.util.Arrays;
 
 public class KohonenMapVisualizer {
 
+    private final static String FOLDER_MAP = "kohonen_maps";
+
     public  void visualize(double[][] inputArray, String filename) {
+        new File(FOLDER_MAP).mkdir();
         int imageSize = 400;
-        
         BufferedImage image = new BufferedImage(imageSize, imageSize, BufferedImage.TYPE_INT_RGB);
         var max = Arrays.stream(inputArray).mapToDouble(x -> Arrays.stream(x).max().getAsDouble()).max().getAsDouble();
         var min = Arrays.stream(inputArray).mapToDouble(x -> Arrays.stream(x).max().getAsDouble()).max().getAsDouble();
@@ -27,7 +29,7 @@ public class KohonenMapVisualizer {
         }
         
         try {
-            File output = new File("kohonen_map.png");
+            File output = new File(FOLDER_MAP+"/"+filename+".png");
             ImageIO.write(image, "png", output);
         } catch (Exception e) {
             e.printStackTrace();

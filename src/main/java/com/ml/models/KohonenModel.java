@@ -1,6 +1,9 @@
 package com.ml.models;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.JFrame;
 
 import org.math.plot.Plot2DPanel;
@@ -47,9 +50,11 @@ public class KohonenModel {
         this.offset = offset;
     }
 
-    public void train(Matrix<Double> inputMatrix, int epochs, double minError) {
+    public List<Double> train(Matrix<Double> inputMatrix, int epochs, double minError) {
         double totalError = 0.0;
+        List<Double> errs = new ArrayList<>();
         KohonenMapVisualizer v = new KohonenMapVisualizer();
+        v.visualize(weightMatrix.toArr(), "first");
         for (int epoch = 0; epoch < epochs; epoch++) {
             for (int i = 0; i < inputMatrix.getDimensions()[0]; i++) {
                 Matrix<Double> inputVector = inputMatrix.getVector(i, 0);
@@ -63,6 +68,7 @@ public class KohonenModel {
                 updateWeights(winnerIndex, inputVector);
                 totalError = distable.distance(inputVector, weightMatrix.getVector(winnerIndex, 0));
                 totalError *= totalError;
+                errs.add(totalError);
                 if (1/inputSize*totalError <minError) {
                     break;
                 }
@@ -70,7 +76,7 @@ public class KohonenModel {
            
         }
         v.visualize(weightMatrix.toArr(), "res");
-        
+        return errs;
     }
 
     public int predict(Matrix<Double> inputVector) {
