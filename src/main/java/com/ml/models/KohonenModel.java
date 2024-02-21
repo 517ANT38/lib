@@ -4,14 +4,9 @@ package com.ml.models;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JFrame;
-
-import org.math.plot.Plot2DPanel;
-
 import com.ml.util.distances.Distable;
 import com.ml.util.distances.EuclideanDistance;
 import com.ml.util.graphGui.KohonenMapVisualizer;
-import com.ml.util.graphGui.KohonenVisualizer;
 import com.ml.util.linearAlgebra.MatArray;
 import com.ml.util.linearAlgebra.Matrix;
 import com.ml.util.randomGenMatrix.RandomGenerator;

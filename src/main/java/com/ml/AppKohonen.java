@@ -1,13 +1,8 @@
 package com.ml;
 
-import java.io.File;
-
 import com.ml.models.KohonenModel;
-import com.ml.util.dataNormolize.Normolizable;
-import com.ml.util.dataNormolize.NormolizableIml;
 import com.ml.util.graphGui.GraphPanel;
 import com.ml.util.linearAlgebra.MatArray;
-import com.ml.util.readWriteDataSet.ImageRead;
 import com.ml.util.readWriteDataSet.ReadCSVFileForAirplanes;
 
 /**
