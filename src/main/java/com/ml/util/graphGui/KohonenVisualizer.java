@@ -25,7 +25,7 @@ protected void paintComponent(Graphics g) {
         int padding = 10;
 
         for (int i = 0; i < model.getOutputSize(); i++) {
-            for (int j = 0; j < 100; j++) {
+            for (int j = 0; j < model.getInputSize(); j++) {
                 double weight = model.getWeightMatrix().get(i, j);
                 Color color = getColorForValue(weight);
 

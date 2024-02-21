@@ -15,4 +15,5 @@ public interface Matrix<T extends Number> {
     int[] getDimensions();
     Matrix<T> getVector(int index, int axis);
     T sum(int index, int axis);
+    double[][] toArr();
 }

@@ -213,6 +213,10 @@ public class MatArray implements Matrix<Double>, Serializable {
         }
         return new MatArray(res);
     }
+    @Override
+    public double[][] toArr() {
+        return matrix;
+    }
     
 
     

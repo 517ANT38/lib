@@ -9,5 +9,6 @@ import lombok.NoArgsConstructor;
 @Data
 public class DataSet {
     private double[] x;
+    private double[] ys;
     private String y;
 }
